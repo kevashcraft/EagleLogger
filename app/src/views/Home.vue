@@ -9,7 +9,7 @@
             <v-list>
               <v-list-item v-for="net in activeNets" :key="net.netId" @click="openNet(net.netId)">
                 <v-list-item-icon>
-                  <v-avatar>
+                  <v-avatar size="36" color="green">
                     <span class="white--text headline">{{ net.name.slice(0, 1) }}</span>
                   </v-avatar>
                 </v-list-item-icon>

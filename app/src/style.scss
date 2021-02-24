@@ -1,5 +1,8 @@
 .v-card-parent {
   margin-top: 24px;
+  @media screen and (min-width: 1024px) {
+    margin: 24px;
+  }
 }
 .v-card-child {
   margin-top: -24px;

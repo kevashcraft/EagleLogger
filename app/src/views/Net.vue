@@ -12,7 +12,7 @@
               <v-list>
                 <v-list-item v-for="checkin in checkins" :key="checkin.checkindId">
                   <v-list-item-content>
-                    <v-list-item-title>{{ checkin.lineNum }} - {{ checkin.callsign }} <v-btn v-if="isNCS" @click="deleteCheckin(checkin.checkinId)" icon><v-icon>mdi-delete</v-icon></v-btn></v-list-item-title>
+                    <v-list-item-title>{{ checkin.lineNum }} - {{ checkin.callsign }}  ( {{ checkin.firstName }} )<v-btn v-if="isNCS" @click="deleteCheckin(checkin.checkinId)" icon><v-icon>mdi-delete</v-icon></v-btn></v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -127,9 +127,15 @@
     },
     methods: {
       async addCheckin() {
-        const doc = await firestore.collection('callsigns').doc(this.newCheckinCallsign).get()
-        const checkin = doc.data()
-        checkin.callsign = doc.id
+        let checkin
+        try {
+          const doc = await firestore.collection('callsigns').doc(this.newCheckinCallsign).get()
+          checkin = doc.data()
+          checkin.callsign = doc.id
+        } catch (error) {
+          checkin = { callsign: this.newCheckinCallsign }
+        }
+
         checkin.createdAt = new Date()
         this.newCheckinCallsign = ''
         firestore.collection('nets').doc(this.netId).collection('checkins').add(checkin)
