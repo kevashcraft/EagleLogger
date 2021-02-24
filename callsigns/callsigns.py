@@ -8,21 +8,37 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-if not os.path.isdir('fcc_database'):
-  print('Downloading FCC Database')
-  os.mkdir('fcc_database')
-  wget.download('ftp://wirelessftp.fcc.gov/pub/uls/complete/l_amat.zip', out='fcc_database')
-  print()
-  print('Extracting..')
-  with ZipFile('fcc_database/l_amat.zip', 'r') as zipfile:
-    zipfile.extractall('fcc_database')
+# if not os.path.isdir('fcc_database'):
+#   print('Downloading FCC Database')
+#   os.mkdir('fcc_database')
+#   wget.download('ftp://wirelessftp.fcc.gov/pub/uls/complete/l_amat.zip', out='fcc_database')
+#   print()
+#   print('Extracting..')
+#   with ZipFile('fcc_database/l_amat.zip', 'r') as zipfile:
+#     zipfile.extractall('fcc_database')
+# 0=MONDAY
+# but, download 3 days before
+# so on Monday, download Friday
+# on Thursday, Monday
+days = ['fri', 'sat', 'sun', 'mon', 'tue', 'wed', 'thu']
+day = days[datetime.today().weekday()]
+
+if not os.path.isdir('fcc_database/{}'.format(day)):
+  print('Downloading FCC MONDAY Database')
+  os.mkdir('fcc_database/{}'.format(day))
+wget.download('ftp://wirelessftp.fcc.gov/pub/uls/daily/l_am_{}.zip'.format(day), out='fcc_database/{}'.format(day))
+print()
+print('Extracting..')
+with ZipFile('fcc_database/{}/l_am_{}.zip'.format(day, day), 'r') as zipfile:
+  zipfile.extractall('fcc_database/{}'.format(day))
+
 
 print('Processing HD.dat')
-with open('fcc_database/HD.dat') as file:
+with open('fcc_database/{}/HD.dat'.format(day)) as file:
   HDarr = [l.split('|') for l in file.read().splitlines()]
 
 print('Processing EN.dat')
-with open('fcc_database/EN.dat') as file:
+with open('fcc_database/{}/EN.dat'.format(day)) as file:
   ENarr = [l.split('|') for l in file.read().splitlines()]
 
 print('Filtering..')
@@ -76,7 +92,7 @@ for i in active:
   except:
     print('aa', i)
 
-print('caka', callsigns['KM4FPA'])
+# print('caka', callsigns['KM4FPA'])
 
 cred = credentials.Certificate('/secret/eaglelogger-194300-8b40e4cabb21.json')
 firebase_admin.initialize_app(cred)
@@ -86,6 +102,7 @@ db = firestore.client()
 idx = 0
 tc = 0
 batch = db.batch()
+print('commiting 55', len(callsigns))
 for callsign, info in tqdm(callsigns.items()):
   data = {
     u'firstName': info[0],
@@ -98,3 +115,4 @@ for callsign, info in tqdm(callsigns.items()):
     idx = 0
     print('commiting', tc, len(callsigns))
     batch.commit()
+batch.commit()
