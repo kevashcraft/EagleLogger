@@ -8,14 +8,14 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-# if not os.path.isdir('fcc_database'):
-#   print('Downloading FCC Database')
-#   os.mkdir('fcc_database')
-#   wget.download('ftp://wirelessftp.fcc.gov/pub/uls/complete/l_amat.zip', out='fcc_database')
-#   print()
-#   print('Extracting..')
-#   with ZipFile('fcc_database/l_amat.zip', 'r') as zipfile:
-#     zipfile.extractall('fcc_database')
+#  if not os.path.isdir('fcc_database'):
+#    print('Downloading FCC Database')
+#    os.mkdir('fcc_database')
+#    wget.download('ftp://wirelessftp.fcc.gov/pub/uls/complete/l_amat.zip', out='fcc_database')
+#    print()
+#    print('Extracting..')
+#    with ZipFile('fcc_database/l_amat.zip', 'r') as zipfile:
+#      zipfile.extractall('fcc_database')
 # 0=MONDAY
 # but, download 3 days before
 # so on Monday, download Friday
