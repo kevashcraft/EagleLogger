@@ -5,7 +5,7 @@
 replicaCount: 1
 
 image:
-  repository: kevashcraft/eaglelogger-3
+  repository: kevashcraft/eaglelogger
   pullPolicy: Always
   tag: latest
 
@@ -52,7 +52,7 @@ ingress:
       paths:
         - /
   tls:
-    - secretName: eaglelogger-com-3-tls
+    - secretName: eaglelogger-com-tls
       hosts:
         - eaglelogger.com
         - www.eaglelogger.com

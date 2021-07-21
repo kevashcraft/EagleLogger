@@ -14,7 +14,7 @@
                   </v-avatar>
                 </v-list-item-icon>
                 <v-list-item-content>
-                  <v-list-item-title>{{ net.name }}</v-list-item-title>
+                  <v-list-item-title>{{ net.title }}</v-list-item-title>
                 </v-list-item-content>
               </v-list-item>
             </v-list>
@@ -61,7 +61,7 @@
     computed: mapState(['activeNets', 'isNCS']),
     watch: {
       activeNets () {
-        console.log("this.activeNets", JSON.stringify(this.activeNets))
+        // console.log("this.activeNets", JSON.stringify(this.activeNets))
       }
     },
     mounted () {

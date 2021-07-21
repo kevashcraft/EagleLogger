@@ -18,13 +18,13 @@ dev: build
 	docker run -p 38888:8080 -v $(shell pwd)/app:/app eaglelogger_dev
 
 prod_build:
-	docker build -f build/production.dockerfile -t kevashcraft/eaglelogger-3:latest .
+	docker build -f build/production.dockerfile -t kevashcraft/eaglelogger:latest .
 
 prod_push: prod_build
-	docker push kevashcraft/eaglelogger-3:latest
+	docker push kevashcraft/eaglelogger:latest
 
 upgrade: prod_build prod_push
-	helm upgrade eaglelogger-3 build/chart
+	helm upgrade eaglelogger build/chart
 
 install: prod_push
-	helm install eaglelogger-3 build/chart
+	helm install eaglelogger build/chart

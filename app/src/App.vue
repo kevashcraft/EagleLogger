@@ -126,16 +126,18 @@
 import { mapGetters, mapMutations, mapState } from 'vuex'
 
 import firestore from './firestore'
+import moment from 'moment'
 
 export default {
   name: 'App',
 
   mounted () {
-    firestore.collection('nets').where('active', '==', true).orderBy('createdAt', 'asc').onSnapshot(snapshot => {
+    firestore.collection('nets').where('active', '==', false).orderBy('createdAt', 'asc').onSnapshot(snapshot => {
       const activeNets = []
       snapshot.forEach(doc => {
         const net = doc.data()
         net.netId = doc.id
+        net.title = net.name + ' - ' + moment(net.createdAt.seconds, 'X').format('YYYY/MM/DD')
         activeNets.push(net)
       })
       this.setGeneric({prop: 'activeNets', value: activeNets})
