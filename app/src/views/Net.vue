@@ -12,7 +12,7 @@
               <v-list>
                 <v-list-item v-for="checkin in checkins" :key="checkin.checkindId">
                   <v-list-item-content>
-                    <v-list-item-title>{{ checkin.lineNum }} - {{ checkin.callsign }}  ( {{ checkin.firstName }} )<v-btn v-if="isNCS" @click="deleteCheckin(checkin.checkinId)" icon><v-icon>mdi-delete</v-icon></v-btn></v-list-item-title>
+                    <v-list-item-title>{{ formatCheckin(checkin) }}<v-btn v-if="isNCS" @click="deleteCheckin(checkin.checkinId)" icon><v-icon>mdi-delete</v-icon></v-btn></v-list-item-title>
                   </v-list-item-content>
                 </v-list-item>
               </v-list>
@@ -54,12 +54,11 @@
 
 <script>
   import { mapGetters, mapState } from 'vuex'
-  import firestore from '@/firestore'
+  import { firestore, increment } from '@/plugins/firestore'
 
   export default {
     mounted () {
       this.netId = this.$route.params.netId
-
       this.unsubscribeNet = firestore.collection('nets').doc(this.netId).onSnapshot(doc => {
         const net = doc.data()
         net.netId = doc.id
@@ -76,6 +75,7 @@
           checkin.lineNum = lineNum
           checkins.push(checkin)
         })
+
         this.checkins = checkins
         setTimeout(this.scrollCC, 250)
       })
@@ -139,6 +139,7 @@
         checkin.createdAt = new Date()
         this.newCheckinCallsign = ''
         firestore.collection('nets').doc(this.netId).collection('checkins').add(checkin)
+        firestore.collection('nets').doc(this.netId).update({checkinCount: increment})
       },
       async addChat() {
         const message = {
@@ -167,6 +168,16 @@
         chat.scrollTop = chat.scrollHeight;        
         const checkins = document.getElementById('checkins')
         checkins.scrollTop = checkins.scrollHeight;        
+      },
+      formatCheckin(checkin) {
+        let r = `${checkin.lineNum} - ${checkin.callsign}`
+        if (checkin.firstName) {
+          r += ` (${checkin.firstName})`
+        }
+        if (checkin.checkins) {
+          r += ` - ${checkin.checkins} `
+        }
+        return r
       }
     }
 

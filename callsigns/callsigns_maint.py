@@ -8,13 +8,30 @@ import firebase_admin
 from firebase_admin import credentials
 from firebase_admin import firestore
 
-print('Downloading FCC Database')
-os.mkdir('fcc_database')
-wget.download('ftp://wirelessftp.fcc.gov/pub/uls/complete/l_amat.zip', out='fcc_database')
+#  if not os.path.isdir('fcc_database'):
+#    print('Downloading FCC Database')
+#    os.mkdir('fcc_database')
+#    wget.download('ftp://wirelessftp.fcc.gov/pub/uls/complete/l_amat.zip', out='fcc_database')
+#    print()
+#    print('Extracting..')
+#    with ZipFile('fcc_database/l_amat.zip', 'r') as zipfile:
+#      zipfile.extractall('fcc_database')
+# 0=MONDAY
+# but, download 3 days before
+# so on Monday, download Friday
+# on Thursday, Monday
+days = ['fri', 'sat', 'sun', 'mon', 'tue', 'wed', 'thu']
+day = days[datetime.today().weekday()]
+
+if not os.path.isdir('fcc_database/{}'.format(day)):
+  print('Downloading FCC MONDAY Database')
+  os.mkdir('fcc_database/{}'.format(day))
+wget.download('ftp://wirelessftp.fcc.gov/pub/uls/daily/l_am_{}.zip'.format(day), out='fcc_database/{}'.format(day))
 print()
 print('Extracting..')
-with ZipFile('fcc_database/l_amat.zip', 'r') as zipfile:
-  zipfile.extractall('fcc_database')
+with ZipFile('fcc_database/{}/l_am_{}.zip'.format(day, day), 'r') as zipfile:
+  zipfile.extractall('fcc_database/{}'.format(day))
+
 
 print('Processing HD.dat')
 with open('fcc_database/{}/HD.dat'.format(day)) as file:

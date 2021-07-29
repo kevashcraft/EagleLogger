@@ -1,0 +1,27 @@
+<?xml version='1.0' encoding='utf-8'?>
+<widget id="com.eaglelogger.app" version="1.0.6" xmlns="http://www.w3.org/ns/widgets" xmlns:android="http://schemas.android.com/apk/res/android" xmlns:cdv="http://cordova.apache.org/ns/1.0">
+    <name>EagleLogger</name>
+    <description>
+        Amateur Radio Net Checkins and Chat
+    </description>
+    <author email="kevin@kevashcraft.com" href="https://www.kevashcraft.com">
+        Kevin Ashcraft
+    </author>
+    <content src="index.html" />
+    <access origin="*" />
+    <allow-intent href="http://*/*" />
+    <allow-intent href="https://*/*" />
+    <allow-intent href="tel:*" />
+    <allow-intent href="sms:*" />
+    <allow-intent href="mailto:*" />
+    <allow-intent href="geo:*" />
+    <platform name="android">
+        <resource-file src="resources/values/colors.xml" target="/app/src/main/res/values/colors.xml" />
+        <icon background="@color/background" density="ldpi" foreground="resources/android/icon/ldpi-foreground.png" />
+        <icon background="@color/background" density="mdpi" foreground="resources/android/icon/mdpi-foreground.png" />
+        <icon background="@color/background" density="hdpi" foreground="resources/android/icon/hdpi-foreground.png" />
+        <icon background="@color/background" density="xhdpi" foreground="resources/android/icon/xhdpi-foreground.png" />
+        <icon background="@color/background" density="xxhdpi" foreground="resources/android/icon/xxhdpi-foreground.png" />
+        <icon background="@color/background" density="xxxhdpi" foreground="resources/android/icon/xxxhdpi-foreground.png" />
+    </platform>
+</widget>

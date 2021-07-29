@@ -10,9 +10,9 @@
     >
       <v-card class="blue-grey darken-1 white--text">
         <v-card-title>
-          <v-row class="justify-center">
+          <v-row class="justify-center" style="padding: 25px 0;">
             <h1 style="font-size: 21px">EagleLogger</h1>
-            <h4 style="font-weight: normal; font-size: 16px">An Amateur Radio Net Logger</h4>
+            <h4 style="font-weight: normal; font-size: 16px">Net Checkins and Chat</h4>
           </v-row>
         </v-card-title>
       </v-card>
@@ -27,12 +27,31 @@
             </v-list-item-content>
           </v-list-item>
         </router-link>
+        <router-link to="/completed-nets" :class="{'current-page': $route.path === '/completed-nets'}">
+          <v-list-item @click="closeNavDrawer">
+            <v-list-item-action>
+              <v-icon>mdi-library</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Completed Nets</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
+        <router-link to="/about" :class="{'current-page': $route.path === '/about'}">
+          <v-list-item @click="closeNavDrawer">
+            <v-list-item-action>
+              <v-icon>mdi-axis-arrow-info</v-icon>
+            </v-list-item-action>
+            <v-list-item-content>
+              <v-list-item-title>Info</v-list-item-title>
+            </v-list-item-content>
+          </v-list-item>
+        </router-link>
       </v-list>
     </v-navigation-drawer>
     <v-app-bar app class="blue darken-3">
       <v-app-bar-nav-icon @click.stop="drawer = !drawer" dark></v-app-bar-nav-icon>
-      <v-spacer></v-spacer>
-        <v-toolbar-title class="white--text">EagleLogger</v-toolbar-title>
+      <v-toolbar-title class="white--text"><router-link to="/" style="text-decoration: none; color: white">EagleLogger</router-link></v-toolbar-title>
       <v-spacer></v-spacer>
       <span v-show="isAuthed" class="capitalize white--text" style="margin-right: 25px">
         Hello {{ user.firstName }}!
@@ -125,19 +144,21 @@
 
 import { mapGetters, mapMutations, mapState } from 'vuex'
 
-import firestore from './firestore'
-import moment from 'moment'
+import { firestore } from '@/plugins/firestore'
 
 export default {
   name: 'App',
 
   mounted () {
-    firestore.collection('nets').where('active', '==', false).orderBy('createdAt', 'asc').onSnapshot(snapshot => {
+    firestore.collection('meta').doc('counts').onSnapshot(doc => {
+      const counts = doc.data()
+      this.setGeneric({prop: 'counts', value: counts})
+    })
+    firestore.collection('nets').where('active', '==', true).orderBy('createdAt', 'asc').onSnapshot(snapshot => {
       const activeNets = []
       snapshot.forEach(doc => {
         const net = doc.data()
         net.netId = doc.id
-        net.title = net.name + ' - ' + moment(net.createdAt.seconds, 'X').format('YYYY/MM/DD')
         activeNets.push(net)
       })
       this.setGeneric({prop: 'activeNets', value: activeNets})
@@ -167,7 +188,7 @@ export default {
     }
   },
   data: () => ({
-    drawer: true,
+    drawer: window.innerWidth >= 1267,
     loginDialogOpened: false,
     loginCallsign: ''
   }),

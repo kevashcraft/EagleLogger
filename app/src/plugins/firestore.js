@@ -13,4 +13,6 @@ const firebaseConfig = {
 
 firebase.initializeApp(firebaseConfig)
 
-export default firebase.firestore()
+const increment = firebase.firestore.FieldValue.increment(1)
+const firestore = firebase.firestore()
+export { firestore, increment }

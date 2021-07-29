@@ -1,0 +1,8 @@
+#!/bin/bash
+/bin/build-app
+cd /cordova/eaglelogger
+rm -rf www
+mv /app/dist www
+/bin/build-resources
+cordova build android
+cp /cordova/eaglelogger/platforms/android/app/build/outputs/apk/debug/app-debug.apk /dist/

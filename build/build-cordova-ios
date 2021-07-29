@@ -1,0 +1,18 @@
+/bin/build-app
+rm -rf /cordova-ios/*
+cd /cordova-ios
+cordova create eaglelogger com.eaglelogger.app "EagleLogger"
+cd eaglelogger
+cordova platform add ios
+cordova plugin add cordova-plugin-app-review
+cp /cordova/eaglelogger/config-ios.xml /cordova-ios/eaglelogger/config.xml
+
+mkdir -p resources/ios
+cp /res/icon.png resources/ios/
+cp /res/splash.png resources/ios/
+cp /res/foreground.png resources/ios/
+
+cordova-res ios --icon-background-source '#FFFFFF' --icon-foreground-source ios/foreground.png
+
+rm -rf www
+mv /app/dist www

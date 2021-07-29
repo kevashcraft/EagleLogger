@@ -1,2 +1,4 @@
 /secret
-
+/app/node_modules
+/app/dist
+/cordova-ios

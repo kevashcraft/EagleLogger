@@ -3,6 +3,8 @@ import VueRouter from 'vue-router'
 
 import Home from '@/views/Home'
 import Net from '@/views/Net'
+import About from '@/views/About'
+import CompletedNets from '@/views/CompletedNets'
 
 Vue.use(VueRouter)
 
@@ -12,9 +14,20 @@ const routes = [
     name: 'Home',
     component: Home
   }, {
+    path: '/about',
+    name: 'About',
+    component: About
+  }, {
     path: '/net/:netId',
     name: 'Net',
     component: Net
+  }, {
+    path: '/completed-nets',
+    name: 'CompletedNets',
+    component: CompletedNets
+  }, {
+    path: '*',
+    redirect: '/'
   }
 ]
 

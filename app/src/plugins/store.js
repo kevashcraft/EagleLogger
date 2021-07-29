@@ -10,14 +10,16 @@ const vuexLocal = new VuexPersistence({
 
 export default new Vuex.Store({
   state: {
+    counts: {
+      netCount: 0,
+      checkinCount: 0
+    },
     activeNets: [],
     user: {},
     isNCS: false
   },
   mutations: {
     setGeneric (state, {prop, value}) {
-      console.log("prop", prop)
-      console.log("value", value)
       state[prop] = value
     }
   },
