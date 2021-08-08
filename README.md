@@ -2,9 +2,9 @@
 <!-- <a href=""><img src="https://github.com/kevashcraft/EagleLogger/raw/main/res/app-store.svg?raw=true" width="200" /></a> -->
 An amateur radio net logging tool with license lookups and real-time chat.
 
-<div>
-  <img src="https://github.com/kevashcraft/EagleLogger/raw/main/res/eaglelogger.gif?raw=true" width="350" />
-</div>
+<p align="center">
+  <img src="https://github.com/kevashcraft/EagleLogger/raw/main/res/eaglelogger.gif?raw=true" width="250" />
+</p>
 
 
 
