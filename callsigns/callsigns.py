@@ -17,11 +17,11 @@ with ZipFile('fcc_database/l_amat.zip', 'r') as zipfile:
   zipfile.extractall('fcc_database')
 
 print('Processing HD.dat')
-with open('fcc_database/{}/HD.dat'.format(day)) as file:
+with open('fcc_database/HD.dat') as file:
   HDarr = [l.split('|') for l in file.read().splitlines()]
 
 print('Processing EN.dat')
-with open('fcc_database/{}/EN.dat'.format(day)) as file:
+with open('fcc_database/EN.dat') as file:
   ENarr = [l.split('|') for l in file.read().splitlines()]
 
 print('Filtering..')
@@ -91,10 +91,10 @@ for callsign, info in tqdm(callsigns.items()):
     u'firstName': info[0],
     u'lastName': info[1]
   }
-  batch.set(db.collection(u'callsigns').document(callsign), data)
+  batch.set(db.collection(u'callsigns').document(callsign), data, merge=True)
   idx += 1
   tc += 1
-  if idx == 500:
+  if idx == 250:
     idx = 0
     print('commiting', tc, len(callsigns))
     batch.commit()
